@@ -1,0 +1,70 @@
+[CENTER]
+[IMG]https://i.ibb.co/k3s6YKt/HLL-Div-Structure.png[/IMG]
+
+
+[SIZE=6][COLOR="#DDDDDD"][B]DIVISION LEADERSHIP[/B][/COLOR][/SIZE]
+
+        {% for leader in division.leaders %}
+                [SIZE=5][b][profile={{ leader.clan_id }}][color={{ leader.rank.color }}]{{ leader.present().rankName }}[/color][/profile][/b][/size]
+[size=4]{{ leader.position.name }}[/size]
+
+        {% endfor %}
+
+
+[size=4][color="#DDDDDD"][b]CLAN ADMINS[/b][/color][/SIZE]
+        {% for sergeant in division.generalSergeants %}
+                [SIZE=3][b][profile={{ sergeant.clan_id }}][color={{ sergeant.rank.color }}]{{ sergeant.present().rankName }}[/color][/profile][/b][/SIZE]
+        {% else %}     
+        {% endfor %}
+
+[/center]
+
+
+
+[CENTER][SIZE=6][COLOR="#DDDDDD"][B]ORDER OF BATTLE[/B][/COLOR][/SIZE]
+
+{% for platoon in division.platoons %}
+[table="align: center"]
+        [tr]
+        [td]
+        
+        [center][size=5][b][color=#DDDDDD]{{ platoon.name }}[/color][/b][/size]
+        {% if platoon.leader.present() %}[b][profile={{ platoon.leader.clan_id }}][size=4][color={{ platoon.leader.rank.color }}]{{ platoon.leader.present().rankName }}[/b][/profile][/color]
+        {% else %}
+        TBA
+        {% endif %}
+	Company Commander[/size][/center]
+        [/td][/tr]
+[/table]
+[table="align: center"]
+[tr]
+
+    {% for squad in platoon.squads %}
+
+    [td][size=3][b][color=#DDDDDD]{{ squad.name }}[/color][/b][/size]
+        {% if squad.leader.present() %}
+                [size=3][b][profile={{ squad.leader.clan_id }}][color="#FFA500"]{{ squad.leader.present().rankName }}[/color][/b][/profile][/size]
+                {% else %}
+                TBA
+                {% endif %}
+		[size=3]Platoon Leader[/size]
+                
+        [size=2][list=1]
+                {%- for member in squad.members -%}
+                        [*][profile={{ member.clan_id }}]{{ member.present().rankName }}[/profile]
+                {% endfor %}
+                [/list][/size]
+        [/td]
+        {% if loop.index is divisible by (2) %}
+        
+        [/tr][tr]
+        {% endif %}
+        {% endfor %}
+        
+        [/tr]
+
+[/table]
+
+{% endfor %}
+
+[/CENTER]
